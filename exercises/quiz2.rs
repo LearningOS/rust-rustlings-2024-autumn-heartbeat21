@@ -37,8 +37,8 @@ mod my_module {
             // TODO: Complete the function body. You can do it!
             match command {
                 Command::Uppercase => output.push(string.to_uppercase()),
-                Command::Trim => output.push(string.trim()),
-                Command::Append(size) => output.push(string + "bar".repeat(size))
+                Command::Trim => output.push(string.trim().to_string()),
+                Command::Append(size) => output.push(string.to_owned() + &"bar".repeat(*size))
             }
         }
         output
@@ -48,7 +48,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use my_module::transformer;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
