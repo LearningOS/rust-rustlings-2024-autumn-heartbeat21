@@ -1,8 +1,7 @@
 /*
-	heap
-	This question requires you to implement a binary heap function
+    heap
+    This question requires you to implement a binary heap function
 */
-// I AM NOT DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -36,8 +35,20 @@ where
         self.len() == 0
     }
 
-    pub fn add(&mut self, value: T) {
+    pub fn add(&mut self, value: T) where T: Default + std::fmt::Display {
         //TODO
+        self.items.push(value);
+        self.count += 1;
+        let mut index = self.count;
+        while index > 1 {
+            let parent_idx = self.parent_idx(index);
+            if (self.comparator)(&self.items[index], &self.items[parent_idx]) {
+                self.items.swap(index, parent_idx);
+                index = parent_idx;
+            } else {
+                break;
+            }
+        }
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -58,7 +69,11 @@ where
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
         //TODO
-		0
+        if (self.comparator)(&self.items[self.left_child_idx(idx)], &self.items[self.right_child_idx(idx)]){
+            self.left_child_idx(idx)
+        }else{
+            self.right_child_idx(idx)
+        }
     }
 }
 
@@ -85,7 +100,31 @@ where
 
     fn next(&mut self) -> Option<T> {
         //TODO
-		None
+        if self.count == 0 {
+            None
+        }else {
+            self.items.swap(1, self.count);
+            self.count -= 1;
+            let mut i = 1;
+            while self.children_present(i) {
+                let mut largest = i;
+                let left = self.left_child_idx(i);
+                let right = self.right_child_idx(i);
+                if left <= self.count && (self.comparator)(&self.items[left], &self.items[largest])  {
+                    largest = left;
+                }
+                if right <= self.count && (self.comparator)(&self.items[right], &self.items[largest]) {
+                    largest = right;
+                }
+                if largest == i {
+                    break;
+                }else {
+                    self.items.swap(i, largest);
+                    i = largest;
+                }
+            }
+            self.items.pop()
+        }
     }
 }
 
