@@ -25,7 +25,7 @@ pub struct ReportCard {
 
 impl ReportCard {
     pub fn print(&self) -> String {
-        if printType{
+        if self.printType {
             format!("{} ({}) - achieved a grade of {}",
                 &self.student_name, &self.student_age, &self.grade)
         }else{
@@ -46,6 +46,7 @@ mod tests {
             grade: 2.1,
             student_name: "Tom Wriggle".to_string(),
             student_age: 12,
+            printType: true
         };
         assert_eq!(
             report_card.print(),
@@ -60,6 +61,7 @@ mod tests {
             grade: 2.1,
             student_name: "Gary Plotter".to_string(),
             student_age: 11,
+            printType: false
         };
         assert_eq!(
             report_card.print(),
